@@ -4,7 +4,7 @@ const axios = require('axios');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
-const token = process.env.TELEGRAM_BOT_TOKEN || '6701652400:AAHoPAbSEf55Tz_aDGSiOz7CPf0xJl8TDts';
+const token = process.env.TELEGRAM_BOT_TOKEN || '6419032561:AAFikXbIO2lHVqI3PzsFpggaebXkF-ynSm4';
 const bot = new TelegramBot(token, { polling: true });
 
 const app = express();
@@ -65,7 +65,7 @@ bot.onText(/\/start/, async (msg) => {
         bot.sendMessage(chatId, '🌟 Welcome to Terabox Downloader and Streamer Bot! To start using this bot, simply subscribe to our channel by tapping the button below:', {
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: '📢 Click Here', url: `https://t.me/${CHANNEL_USERNAME}` }],
+                    [{ text: '📢 Click Here', url: `https://t.me/terabox_video_down` }],
                     [{ text: '🔄 Try Again', callback_data: 'check_subscription' }]
                 ]
             }
@@ -175,7 +175,7 @@ bot.on('message', async (msg) => {
             const streamLink = `https://stream.ronok.workers.dev?${directLink.split('/').pop()}`;
 
             await bot.sendVideo(chatId, videoPath, {
-                caption: '🎬 Here is your video downloaded.\n\nIf you want to stream it without lag, use this bot @terastream_bot.',
+                caption: '🎬 Here is your video downloaded.\n\n\nIf you want to stream it without lag, use this bot @terastream_bot.',
                 reply_markup: {
                     inline_keyboard: [
                         [{ text: '🎥 Stream this video', url: streamLink }]
@@ -183,7 +183,7 @@ bot.on('message', async (msg) => {
                 }
             });
 
-            bot.sendMessage(chatId, '⏳ Note: The stream link lasts only 30 minutes on the server. After that time, the video will be deleted. Video might be show as black and without duration dont worry just download the video to see it.');
+            bot.sendMessage(chatId, '⏳ Note: The stream link lasts only 30 minutes on the server.\nAfter that time, the video will be deleted.\nVideo might be show as black and without duration dont worry just download the video to see it.');
 
             // Increment links processed
             stats.linksProcessed += 1;
