@@ -213,7 +213,7 @@ async function downloadVideo(url) {
 async function generateVerificationLink(userId) {
     const uniqueCode = generateUniqueCode();
     verificationCodes[uniqueCode] = userId;
-    const verifyUrl = `https://telegram.me/teradownrobot?start=${uniqueCode}`;
+    const verifyUrl = `https://telegram.me/save_res_robot?start=${uniqueCode}`;
     const shortenResponse = await axios.get(`https://teraboxlinks.com/api?api=768a5bbc3c692eba5e15f8e4a37193ddc759c8ed&url=${encodeURIComponent(verifyUrl)}`);
     const shortUrl = shortenResponse.data.shortenedUrl;
     return shortUrl;
