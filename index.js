@@ -9,6 +9,7 @@ const bot = new TelegramBot(token, { polling: true });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const CHANNEL_USERNAME = '@yourchannel'; // Replace with your channel username
 
 // In-memory store for user access tokens with expiry times and stats
 let userAccess = {};
@@ -59,10 +60,43 @@ bot.onText(/\/start/, async (msg) => {
             console.error('Error saving user ID:', error);
         });
 
-    if (!userAccess[userId] || userAccess[userId] < Date.now()) {
-        bot.sendMessage(chatId, '👋 Welcome to Terabox Downloader and Streamer Bot. Give me a Terabox link to download it or stream it.');
+    const isSubscribed = await checkSubscription(userId);
+    if (!isSubscribed) {
+        bot.sendMessage(chatId, 'Subscribe to this channel to use this bot', {
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: '📢 Click Here', url: `https://t.me/${CHANNEL_USERNAME}` }],
+                    [{ text: '🔄 Try Again', callback_data: 'check_subscription' }]
+                ]
+            }
+        });
     } else {
-        bot.sendMessage(chatId, '✅ Verification success. You can now use the bot for the next 24 hours.');
+        if (!userAccess[userId] || userAccess[userId] < Date.now()) {
+            bot.sendMessage(chatId, '👋 Welcome to Terabox Downloader and Streamer Bot. Give me a Terabox link to download it or stream it.');
+        } else {
+            bot.sendMessage(chatId, '✅ Verification success. You can now use the bot for the next 24 hours.');
+        }
+    }
+});
+
+bot.on('callback_query', async (callbackQuery) => {
+    const msg = callbackQuery.message;
+    const userId = callbackQuery.from.id;
+
+    if (callbackQuery.data === 'check_subscription') {
+        const isSubscribed = await checkSubscription(userId);
+        if (isSubscribed) {
+            bot.sendMessage(msg.chat.id, '✅ Subscription verified. You can now use the bot.');
+        } else {
+            bot.sendMessage(msg.chat.id, '❌ You are not subscribed yet. Please subscribe to the channel to use this bot.', {
+                reply_markup: {
+                    inline_keyboard: [
+                        [{ text: '📢 Click Here', url: `https://t.me/${CHANNEL_USERNAME}` }],
+                        [{ text: '🔄 Try Again', callback_data: 'check_subscription' }]
+                    ]
+                }
+            });
+        }
     }
 });
 
@@ -138,11 +172,13 @@ bot.on('message', async (msg) => {
 
             await bot.editMessageText('⏫ Uploading video to you...', { chat_id: chatId, message_id: progressMsg.message_id });
 
+            const streamLink = `https://stream.ronok.workers.dev?${directLink.split('/').pop()}`;
+
             await bot.sendVideo(chatId, videoPath, {
-                caption: '🎬 Here is your video downloaded.\n\nIf you want to stream it, use the button below.',
+                caption: '🎬 Here is your video downloaded.\n\nIf you want to stream it without lag, use this bot @terastream_bot.',
                 reply_markup: {
                     inline_keyboard: [
-                        [{ text: '🎥 Stream this video', url: directLink }]
+                        [{ text: '🎥 Stream this video', url: streamLink }]
                     ]
                 }
             });
@@ -177,7 +213,7 @@ async function downloadVideo(url) {
 async function generateVerificationLink(userId) {
     const uniqueCode = generateUniqueCode();
     verificationCodes[uniqueCode] = userId;
-    const verifyUrl = `https://telegram.me/save_res_robot?start=${uniqueCode}`;
+    const verifyUrl = `https://telegram.me/teradownrobot?start=${uniqueCode}`;
     const shortenResponse = await axios.get(`https://teraboxlinks.com/api?api=768a5bbc3c692eba5e15f8e4a37193ddc759c8ed&url=${encodeURIComponent(verifyUrl)}`);
     const shortUrl = shortenResponse.data.shortenedUrl;
     return shortUrl;
@@ -185,6 +221,22 @@ async function generateVerificationLink(userId) {
 
 function generateUniqueCode() {
     return Math.floor(1000000 + Math.random() * 9000000).toString();
+}
+
+async function checkSubscription(userId) {
+    try {
+        const response = await axios.get(`https://api.telegram.org/bot${token}/getChatMember`, {
+            params: {
+                chat_id: CHANNEL_USERNAME,
+                user_id: userId
+            }
+        });
+        const status = response.data.result.status;
+        return status === 'member' || status === 'administrator' || status === 'creator';
+    } catch (error) {
+        console.error('Error checking subscription:', error);
+        return false;
+    }
 }
 
 // Handle the /start command with verification token
@@ -201,11 +253,11 @@ bot.onText(/\/start (.+)/, (msg, match) => {
     }
 });
 
-// Ensure the app binds to the port provided by Heroku
+// Start the Express server
 app.get('/', (req, res) => {
-    res.send('Telegram bot is running.');
+    res.send('Telegram bot is running');
 });
 
 app.listen(PORT, () => {
-    console.log(`Bot is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
