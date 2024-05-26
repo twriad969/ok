@@ -65,7 +65,7 @@ bot.onText(/\/start/, async (msg) => {
         bot.sendMessage(chatId, 'Subscribe to this channel to use this bot', {
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: '📢 Click Here', url: `https://t.me/${CHANNEL_USERNAME}` }],
+                    [{ text: '📢 Click Here', url: `https://t.me/terabox_video_down` }],
                     [{ text: '🔄 Try Again', callback_data: 'check_subscription' }]
                 ]
             }
@@ -91,7 +91,7 @@ bot.on('callback_query', async (callbackQuery) => {
             bot.sendMessage(msg.chat.id, '❌ You are not subscribed yet. Please subscribe to the channel to use this bot.', {
                 reply_markup: {
                     inline_keyboard: [
-                        [{ text: '📢 Click Here', url: `https://t.me/${CHANNEL_USERNAME}` }],
+                        [{ text: '📢 Click Here', url: `https://t.me/terabox_video_down` }],
                         [{ text: '🔄 Try Again', callback_data: 'check_subscription' }]
                     ]
                 }
