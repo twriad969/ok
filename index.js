@@ -3,7 +3,7 @@ const axios = require('axios');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
-const token = process.env.TELEGRAM_BOT_TOKEN || 'YOUR_TELEGRAM_BOT_TOKEN';
+const token = process.env.TELEGRAM_BOT_TOKEN || '6701652400:AAHoPAbSEf55Tz_aDGSiOz7CPf0xJl8TDts';
 const bot = new TelegramBot(token, { polling: true });
 
 // In-memory store for user access tokens with expiry times and stats
