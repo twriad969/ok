@@ -65,7 +65,7 @@ bot.onText(/\/start/, async (msg) => {
         bot.sendMessage(chatId, 'Subscribe to this channel to use this bot', {
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: '📢 Click Here', url: `https://t.me/terabox_video_down` }],
+                    [{ text: '📢 Click Here', url: `https://t.me/${CHANNEL_USERNAME}` }],
                     [{ text: '🔄 Try Again', callback_data: 'check_subscription' }]
                 ]
             }
@@ -137,6 +137,19 @@ bot.on('message', async (msg) => {
     const chatId = msg.chat.id;
     const text = msg.text;
     const userId = msg.from.id;
+
+    const isSubscribed = await checkSubscription(userId);
+    if (!isSubscribed) {
+        bot.sendMessage(chatId, 'Subscribe to this channel to use this bot', {
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: '📢 Click Here', url: `https://t.me/terabox_video_down` }],
+                    [{ text: '🔄 Try Again', callback_data: 'check_subscription' }]
+                ]
+            }
+        });
+        return;
+    }
 
     if (text.includes('terabox')) {
         // Check if user has access
