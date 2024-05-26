@@ -62,11 +62,10 @@ bot.onText(/\/start/, async (msg) => {
 
     const isSubscribed = await checkSubscription(userId);
     if (!isSubscribed) {
-        bot.sendMessage(chatId, '🌟 Welcome to Terabox Downloader and Streamer Bot! To start using this bot, simply subscribe to our channel by tapping the button below:
-', {
+        bot.sendMessage(chatId, 'Subscribe to this channel to use this bot', {
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: '📢 Click Here', url: `https://t.me/terabox_video_down` }],
+                    [{ text: '📢 Click Here', url: `https://t.me/${CHANNEL_USERNAME}` }],
                     [{ text: '🔄 Try Again', callback_data: 'check_subscription' }]
                 ]
             }
@@ -75,7 +74,7 @@ bot.onText(/\/start/, async (msg) => {
         if (!userAccess[userId] || userAccess[userId] < Date.now()) {
             bot.sendMessage(chatId, '👋 Welcome to Terabox Downloader and Streamer Bot. Give me a Terabox link to download it or stream it.');
         } else {
-            bot.sendMessage(chatId, '👋 Welcome to Terabox Downloader and Streamer Bot. Give me a Terabox link to download it or stream it.');
+            bot.sendMessage(chatId, '✅ Verification success. You can now use the bot for the next 24 hours.');
         }
     }
 });
@@ -87,7 +86,7 @@ bot.on('callback_query', async (callbackQuery) => {
     if (callbackQuery.data === 'check_subscription') {
         const isSubscribed = await checkSubscription(userId);
         if (isSubscribed) {
-            bot.sendMessage(msg.chat.id, '✅ Subscription verified! Now you can use this bot click /start again.');
+            bot.sendMessage(msg.chat.id, '✅ Subscription verified. You can now use the bot.');
         } else {
             bot.sendMessage(msg.chat.id, '❌ You are not subscribed yet. Please subscribe to the channel to use this bot.', {
                 reply_markup: {
@@ -161,17 +160,17 @@ bot.on('message', async (msg) => {
             return;
         }
         const teraboxLink = teraboxLinkMatch[0];
-        const progressMsg = await bot.sendMessage(chatId, '⏳ Fetching your video...');
+        const progressMsg = await bot.sendMessage(chatId, '⏳ Requesting API...');
 
         try {
             const apiResponse = await axios.get(`https://st.ronok.workers.dev/?link=${teraboxLink}`);
             const directLink = apiResponse.data;
 
-            await bot.editMessageText('⬇️ Video downloaded successfully!', { chat_id: chatId, message_id: progressMsg.message_id });
+            await bot.editMessageText('⏬ Downloading video...', { chat_id: chatId, message_id: progressMsg.message_id });
 
             const videoPath = await downloadVideo(directLink);
 
-            await bot.editMessageText('⬆️ Uploading your video...', { chat_id: chatId, message_id: progressMsg.message_id });
+            await bot.editMessageText('⏫ Uploading video to you...', { chat_id: chatId, message_id: progressMsg.message_id });
 
             const streamLink = `https://stream.ronok.workers.dev?${directLink.split('/').pop()}`;
 
@@ -184,7 +183,7 @@ bot.on('message', async (msg) => {
                 }
             });
 
-            bot.sendMessage(chatId, 'ℹ️ Note: The stream link remains active for 30 minutes. After that, the video will be deleted. If the stream is interrupted, simply resend the link. If issues persist, there might be a Terabox server error. Try another link!');
+            bot.sendMessage(chatId, '⏳ Note: The stream link lasts only 30 minutes on the server. After that time, the video will be deleted. If the video is broken, send the link again. If it’s broken again, there might be a Terabox server error. Please try another link.');
 
             // Increment links processed
             stats.linksProcessed += 1;
@@ -194,7 +193,7 @@ bot.on('message', async (msg) => {
             await bot.deleteMessage(chatId, progressMsg.message_id);
         } catch (error) {
             console.error(error);
-            bot.sendMessage(chatId, '❌ There was an error processing your request. Please try again. If the problem persists, Check our channel for update @terabox_video_down.');
+            bot.sendMessage(chatId, '❌ There was an error processing your request. Please try again. If the problem persists, contact admin @fattasuck.');
         }
     }
 });
