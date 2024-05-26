@@ -74,7 +74,7 @@ bot.onText(/\/start/, async (msg) => {
         if (!userAccess[userId] || userAccess[userId] < Date.now()) {
             bot.sendMessage(chatId, '👋 Welcome to Terabox Downloader and Streamer Bot. Give me a Terabox link to download it or stream it.');
         } else {
-            bot.sendMessage(chatId, '👋 Welcome to Terabox Downloader and Streamer Bot. Give me a Terabox link to download it or stream it.');
+            bot.sendMessage(chatId, '👋 Welcome to Terabox Downloader and Streamer Bot. Give me a Terabox link to download it or stream it. it supports videos under 50Mb only.');
         }
     }
 });
@@ -183,7 +183,7 @@ bot.on('message', async (msg) => {
                 }
             });
 
-            bot.sendMessage(chatId, '⏳ Note: The stream link lasts only 30 minutes on the server.\nAfter that time, the video will be deleted.\nVideo might be show as black and without duration dont worry just download the video to see it.');
+            bot.sendMessage(chatId, '⏳ Note: If the video file is broken that means it larger than 50MB.\nAfter that time, the video will be deleted.\nVideo might be show as black and without duration dont worry just download the video to see it.');
 
             // Increment links processed
             stats.linksProcessed += 1;
@@ -193,7 +193,7 @@ bot.on('message', async (msg) => {
             await bot.deleteMessage(chatId, progressMsg.message_id);
         } catch (error) {
             console.error(error);
-            bot.sendMessage(chatId, '❌ There was an error processing your request. Please try again. If the problem persists, Updates channel @terabox_video_down.');
+            bot.sendMessage(chatId, '❌ Api error please take some time. Please try again. If the problem persists, Updates channel @terabox_video_down.');
         }
     }
 });
