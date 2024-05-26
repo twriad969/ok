@@ -9,7 +9,7 @@ const bot = new TelegramBot(token, { polling: true });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const CHANNEL_USERNAME = '@yourchannel'; // Replace with your channel username
+const CHANNEL_USERNAME = '@terabox_video_down'; // Replace with your channel username
 
 // In-memory store for user access tokens with expiry times and stats
 let userAccess = {};
