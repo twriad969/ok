@@ -1,0 +1,17 @@
+{
+  "name": "terabox-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for Terabox Downloader and Streamer",
+  "main": "index.js",
+  "scripts": {
+    "start": "forever start -c node index.js",
+    "stop": "forever stop index.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "fs": "0.0.1-security",
+    "node-telegram-bot-api": "^0.53.0",
+    "uuid": "^8.3.2",
+    "forever": "^3.0.0"
+  }
+}
