@@ -70,7 +70,6 @@ bot.onText(/\/start/, async (msg) => {
                 ]
             }
         });
-        return;
     } else {
         if (!userAccess[userId] || userAccess[userId] < Date.now()) {
             bot.sendMessage(chatId, '👋 Welcome to Terabox Downloader and Streamer Bot. Give me a Terabox link to download it or stream it.');
