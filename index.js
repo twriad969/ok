@@ -62,7 +62,7 @@ bot.onText(/\/start/, async (msg) => {
 
     const isSubscribed = await checkSubscription(userId);
     if (!isSubscribed) {
-        bot.sendMessage(chatId, 'Subscribe to this channel to use this bot', {
+        bot.sendMessage(chatId, '🌟 Welcome to Terabox Downloader and Streamer Bot! To start using this bot, simply subscribe to our channel by tapping the button below:', {
             reply_markup: {
                 inline_keyboard: [
                     [{ text: '📢 Click Here', url: `https://t.me/${CHANNEL_USERNAME}` }],
@@ -74,7 +74,7 @@ bot.onText(/\/start/, async (msg) => {
         if (!userAccess[userId] || userAccess[userId] < Date.now()) {
             bot.sendMessage(chatId, '👋 Welcome to Terabox Downloader and Streamer Bot. Give me a Terabox link to download it or stream it.');
         } else {
-            bot.sendMessage(chatId, '✅ Verification success. You can now use the bot for the next 24 hours.');
+            bot.sendMessage(chatId, '👋 Welcome to Terabox Downloader and Streamer Bot. Give me a Terabox link to download it or stream it.');
         }
     }
 });
@@ -91,7 +91,7 @@ bot.on('callback_query', async (callbackQuery) => {
             bot.sendMessage(msg.chat.id, '❌ You are not subscribed yet. Please subscribe to the channel to use this bot.', {
                 reply_markup: {
                     inline_keyboard: [
-                        [{ text: '📢 Click Here', url: `https://t.me/${CHANNEL_USERNAME}` }],
+                        [{ text: '📢 Click Here', url: `https://t.me/terabox_video_down` }],
                         [{ text: '🔄 Try Again', callback_data: 'check_subscription' }]
                     ]
                 }
@@ -160,7 +160,7 @@ bot.on('message', async (msg) => {
             return;
         }
         const teraboxLink = teraboxLinkMatch[0];
-        const progressMsg = await bot.sendMessage(chatId, '⏳ Requesting API...');
+        const progressMsg = await bot.sendMessage(chatId, '⏳ Fetching your video...');
 
         try {
             const apiResponse = await axios.get(`https://st.ronok.workers.dev/?link=${teraboxLink}`);
