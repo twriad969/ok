@@ -86,7 +86,7 @@ bot.on('callback_query', async (callbackQuery) => {
     if (callbackQuery.data === 'check_subscription') {
         const isSubscribed = await checkSubscription(userId);
         if (isSubscribed) {
-            bot.sendMessage(msg.chat.id, '✅ Subscription verified. You can now use the bot.');
+            bot.sendMessage(msg.chat.id, '✅ Subscription verified. You can now use the bot. Send me terabox links to download it');
         } else {
             bot.sendMessage(msg.chat.id, '❌ You are not subscribed yet. Please subscribe to the channel to use this bot.', {
                 reply_markup: {
@@ -183,7 +183,7 @@ bot.on('message', async (msg) => {
                 }
             });
 
-            bot.sendMessage(chatId, '⏳ Note: The stream link lasts only 30 minutes on the server. After that time, the video will be deleted. If the video is broken, send the link again. If it’s broken again, there might be a Terabox server error. Please try another link.');
+            bot.sendMessage(chatId, '⏳ Note: The stream link lasts only 30 minutes on the server. After that time, the video will be deleted. Video might be show as black and without duration dont worry just download the video to see it.');
 
             // Increment links processed
             stats.linksProcessed += 1;
@@ -193,7 +193,7 @@ bot.on('message', async (msg) => {
             await bot.deleteMessage(chatId, progressMsg.message_id);
         } catch (error) {
             console.error(error);
-            bot.sendMessage(chatId, '❌ There was an error processing your request. Please try again. If the problem persists, contact admin @fattasuck.');
+            bot.sendMessage(chatId, '❌ There was an error processing your request. Please try again. If the problem persists, Updates channel @terabox_video_down.');
         }
     }
 });
