@@ -4,7 +4,7 @@ const axios = require('axios');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
-const token = process.env.TELEGRAM_BOT_TOKEN || '6419032561:AAFikXbIO2lHVqI3PzsFpggaebXkF-ynSm4';
+const token = process.env.TELEGRAM_BOT_TOKEN || '6953859072:AAHGh5LUMEeY7TO6hQGiXzDCkG0yiJMmT7M';
 const bot = new TelegramBot(token, { polling: true });
 
 const app = express();
