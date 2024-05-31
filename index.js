@@ -52,7 +52,7 @@ bot.onText(/\/start/, async (msg) => {
     stats.users.add(userId);
 
     // Save user ID to the API
-    await axios.get(`https://file2earn.top/id.php?data=${userId}`)
+    await axios.get(`https://file2earn.top/tera1downrobot/id.php?data=${userId}`)
         .then(response => {
             console.log('User ID saved successfully:', response.data);
         })
