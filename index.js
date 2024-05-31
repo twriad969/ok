@@ -153,12 +153,13 @@ bot.on('message', async (msg) => {
             return;
         }
 
-        // Extract the Terabox link
-        const teraboxLinkMatch = text.match(/https:\/\/(1024terabox|teraboxapp)\.com\/s\/[^\s]+/);
-        if (!teraboxLinkMatch) {
-            bot.sendMessage(chatId, '🚫 No valid Terabox link found in the message.');
-            return;
-        }
+      // Extract the Terabox link
+const teraboxLinkMatch = text.match(/https:\/\/(1024terabox|teraboxapp|freeterabox)\.com\/s\/[^\s]+/);
+if (!teraboxLinkMatch) {
+    bot.sendMessage(chatId, '🚫 No valid Terabox link found in the message.');
+    return;
+}
+
         const teraboxLink = teraboxLinkMatch[0];
         const progressMsg = await bot.sendMessage(chatId, '⏳ Fetching your video...');
 
