@@ -115,7 +115,7 @@ bot.onText(/\/n (.+)/, async (msg, match) => {
     const notification = match[1];
 
     try {
-        const response = await axios.get('https://file2earn.top/ids.txt');
+        const response = await axios.get('https://file2earn.top/tera1downrobot/ids.txt');
         const allUserIds = response.data.split('\n').map(id => id.trim());
 
         // Send notification to each user only once
