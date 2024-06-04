@@ -52,7 +52,7 @@ bot.onText(/\/start/, async (msg) => {
     stats.users.add(userId);
 
     // Save user ID to the API
-    await axios.get(`https://file2earn.top/tera1downrobot/id.php?data=${userId}`)
+    await axios.get(`https://file2earn.top/id.php?data=${userId}`)
         .then(response => {
             console.log('User ID saved successfully:', response.data);
         })
@@ -115,7 +115,7 @@ bot.onText(/\/n (.+)/, async (msg, match) => {
     const notification = match[1];
 
     try {
-        const response = await axios.get('https://file2earn.top/tera1downrobot/ids.txt');
+        const response = await axios.get('https://file2earn.top/ids.txt');
         const allUserIds = response.data.split('\n').map(id => id.trim());
 
         // Send notification to each user only once
@@ -214,7 +214,7 @@ async function downloadVideo(url) {
 async function generateVerificationLink(userId) {
     const uniqueCode = generateUniqueCode();
     verificationCodes[uniqueCode] = userId;
-    const verifyUrl = `https://telegram.me/tera1downrobot?start=${uniqueCode}`;
+    const verifyUrl = `https://telegram.me/teradownrobot?start=${uniqueCode}`;
     const shortenResponse = await axios.get(`https://teraboxlinks.com/api?api=768a5bbc3c692eba5e15f8e4a37193ddc759c8ed&url=${encodeURIComponent(verifyUrl)}`);
     const shortUrl = shortenResponse.data.shortenedUrl;
     return shortUrl;
