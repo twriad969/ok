@@ -9,7 +9,7 @@ const bot = new TelegramBot(token, { polling: true });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const CHANNEL_USERNAME = '@terabox_video_down'; // Replace with your channel username
+const CHANNEL_USERNAME = '@teraboxdow'; // Replace with your channel username
 
 // In-memory store for user access tokens with expiry times and stats
 let userAccess = {};
@@ -65,7 +65,7 @@ bot.onText(/\/start/, async (msg) => {
         bot.sendMessage(chatId, '🌟 Welcome to Terabox Downloader and Streamer Bot! To start using this bot, simply subscribe to our channel by tapping the button below:', {
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: '📢 Click Here', url: `https://t.me/terabox_video_down` }],
+                    [{ text: '📢 Click Here', url: `https://t.me/teraboxdow` }],
                     [{ text: '🔄 Try Again', callback_data: 'check_subscription' }]
                 ]
             }
@@ -91,7 +91,7 @@ bot.on('callback_query', async (callbackQuery) => {
             bot.sendMessage(msg.chat.id, '❌ You are not subscribed yet. Please subscribe to the channel to use this bot.', {
                 reply_markup: {
                     inline_keyboard: [
-                        [{ text: '📢 Click Here', url: `https://t.me/terabox_video_down` }],
+                        [{ text: '📢 Click Here', url: `https://t.me/teraboxdow` }],
                         [{ text: '🔄 Try Again', callback_data: 'check_subscription' }]
                     ]
                 }
@@ -146,7 +146,7 @@ bot.on('message', async (msg) => {
                 reply_markup: {
                     inline_keyboard: [
                         [{ text: '✅ Click Here', url: verifyUrl }],
-                        [{ text: '❓ How to Bypass', url: 'https://t.me/dterabox/4' }]
+                        [{ text: '❓ How to Bypass', url: 'https://t.me/openshortnerlinks/2' }]
                     ]
                 }
             });
@@ -215,7 +215,7 @@ async function generateVerificationLink(userId) {
     const uniqueCode = generateUniqueCode();
     verificationCodes[uniqueCode] = userId;
     const verifyUrl = `https://telegram.me/teradownrobot?start=${uniqueCode}`;
-    const shortenResponse = await axios.get(`https://teraboxlinks.com/api?api=768a5bbc3c692eba5e15f8e4a37193ddc759c8ed&url=${encodeURIComponent(verifyUrl)}`);
+    const shortenResponse = await axios.get(`https://instantearn.in/api?api=dd2d7e3776cff338ac9031041db236ec7c844df5&url=${encodeURIComponent(verifyUrl)}`);
     const shortUrl = shortenResponse.data.shortenedUrl;
     return shortUrl;
 }
